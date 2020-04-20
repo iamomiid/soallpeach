@@ -1,10 +1,10 @@
 const fs = require('fs');
-const util = require('util');
-
-const readFile = util.promisify(fs.readFile);
+const input = process.argv[2];
 
 let primes = [];
 let keys = {};
+
+const data = fs.readFileSync(input, { encoding: 'utf-8' }).split('\n');
 
 function isPrime(strNumber) {
 	const input = Number(strNumber);
@@ -37,14 +37,6 @@ function generate(n) {
 	}
 }
 
-function main() {
-	generate(150000);
-	const input = process.argv[2];
-	readFile(input, { encoding: 'utf-8' }).then((data) => {
-		data.split('\n').forEach((v) => {
-			console.log(isPrime(v));
-		});
-	});
-}
+generate(150000);
 
-main();
+console.log(data.map(isPrime).join('\n'));
