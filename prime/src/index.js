@@ -1,6 +1,4 @@
-const start = Date.now();
 const fs = require('fs');
-const readLine = require('readline');
 const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
@@ -42,24 +40,11 @@ function generate(n) {
 function main() {
 	generate(150000);
 	const input = process.argv[2];
-	// const input = '/Users/omidseyfan/Projects/Node/soalpeach/onboarding/challenges/prime/input.txt';
-	// const readInterface = readLine.createInterface({
-	// 	input: fs.createReadStream(input),
-	// 	output: process.stdout,
-	// 	console: false,
-	// 	terminal: false,
-	// });
-	// readInterface.on('line', (l) => console.log(isPrime(l)));
-	// readInterface.on('close', () => {
-	// 	console.log(Date.now() - start);
-	// });
 	readFile(input, { encoding: 'utf-8' }).then((data) => {
 		data.split('\n').forEach((v) => {
-			process.stdout.write(isPrime(v) + '\n');
+			console.log(isPrime(v));
 		});
 	});
-	// .then((data) => data.split('\n').map(isPrime).join('\n'))
-	// .then((d) => process.stdout.write(d))
 }
 
 main();
