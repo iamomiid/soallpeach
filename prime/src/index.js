@@ -5,31 +5,42 @@ const util = require('util');
 
 const readFile = util.promisify(fs.readFile);
 
-let primes = [3];
+let primes = [];
+let keys = {};
 
-async function isPrime(strNumber) {
-	return new Promise((r) => {
-		const input = Number(strNumber);
-		// let index = 0;
-		let i = 3;
-		if (input == 2 || input == 3) {
-			return r(1);
+function isPrime(strNumber) {
+	const input = Number(strNumber);
+	let index = 0;
+	let i = primes[index];
+	if (keys[input]) {
+		return 1;
+	}
+	if (input == 0 || input == 1 || input % 2 == 0) {
+		return 0;
+	}
+	while (i <= Math.floor(Math.sqrt(input))) {
+		if (input % i == 0) {
+			return 0;
 		}
-		if (input == 0 || input == 1 || input % 2 == 0) {
-			return r(0);
+		i = index < primes.length - 1 ? primes[++index] : i + 2;
+	}
+	return 1;
+}
+
+function generate(n) {
+	const done = {};
+	for (let i = 2; i < n; i++) {
+		if (done[i]) continue;
+		for (let j = 1; j * i < n; j++) {
+			done[j * i] = true;
 		}
-		while (i <= Math.floor(Math.sqrt(input))) {
-			if (input % i == 0) {
-				return r(0);
-			}
-			i += 2;
-		}
-		// primes.push(input);
-		return r(1);
-	});
+		primes.push(i);
+		keys[i] = true;
+	}
 }
 
 function main() {
+	generate(150000);
 	const input = process.argv[2];
 	// const input = '/Users/omidseyfan/Projects/Node/soalpeach/onboarding/challenges/prime/input.txt';
 	// const readInterface = readLine.createInterface({
@@ -43,11 +54,12 @@ function main() {
 	// 	console.log(Date.now() - start);
 	// });
 	readFile(input, { encoding: 'utf-8' }).then((data) => {
-		Promise.all(data.split('\n').map((v) => isPrime(v))).then((datas) => {
-			process.stdout.write(datas.join('\n'));
-			console.log(Date.now() - start);
+		data.split('\n').forEach((v) => {
+			process.stdout.write(isPrime(v) + '\n');
 		});
 	});
+	// .then((data) => data.split('\n').map(isPrime).join('\n'))
+	// .then((d) => process.stdout.write(d))
 }
 
 main();
