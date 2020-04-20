@@ -1,0 +1,9 @@
+{
+	"name": "challenge-prime",
+	"version": "1.0.0",
+	"main": "src/index.js",
+	"author": "Omid Sayfun <seyfanomid@ymail.com>",
+	"license": "MIT",
+	"dependencies": {},
+	"devDependencies": {}
+}
