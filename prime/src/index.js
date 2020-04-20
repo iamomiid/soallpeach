@@ -45,6 +45,7 @@ function main() {
 	readFile(input, { encoding: 'utf-8' }).then((data) => {
 		Promise.all(data.split('\n').map((v) => isPrime(v))).then((datas) => {
 			process.stdout.write(datas.join('\n'));
+			console.log(Date.now() - start);
 		});
 	});
 }
